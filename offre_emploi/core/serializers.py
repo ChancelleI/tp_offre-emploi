@@ -5,16 +5,28 @@ from rest_framework import serializers
 from .models import JobOffer, JobSeekerProfile, Recruiter
 
 class JobOfferSerializer(serializers.ModelSerializer):
+    """ Sérialiseur pour les offres d'emploi. """
+    
     class Meta:
         model = JobOffer
         fields = '__all__'
 
+    def validate_title(self, value):
+        """ Vérifie que le titre de l'offre n'est pas vide. """
+        if not value.strip():
+            raise serializers.ValidationError("Le titre de l'offre ne peut pas être vide.")
+        return value
+
 class JobSeekerProfileSerializer(serializers.ModelSerializer):
+    """ Sérialiseur pour les profils des chercheurs d'emploi. """
+    
     class Meta:
         model = JobSeekerProfile
         fields = '__all__'
 
 class RecruiterProfileSerializer(serializers.ModelSerializer):
+    """ Sérialiseur pour les profils des recruteurs. """
+    
     class Meta:
         model = Recruiter
         fields = '__all__'

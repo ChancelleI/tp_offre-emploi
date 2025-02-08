@@ -20,9 +20,9 @@ from django.urls import path, include
 from django.shortcuts import redirect  # Import pour la redirection
 
 urlpatterns = [
-    path('admin/', admin.site.urls),
-    path('', include('core.urls')),  # Inclure les routes de l'app core
-    path('', lambda request: redirect('api/joboffers/')),  # Redirection vers les offres d'emploi
+   path('admin/', admin.site.urls),  # Interface d'administration
+    path('api/', include('core.urls')),  # Inclusion des routes de l'application core sous /api/
+    path('', lambda request: redirect('/api/joboffers/')),  # Redirection de la page d'accueil vers les offres d'emploi
     # la page d'accueil affiche directement les offres d'emploi donc j'ai Redirigé la page d'accueil vers l'API ou une autre vue
 ]
 

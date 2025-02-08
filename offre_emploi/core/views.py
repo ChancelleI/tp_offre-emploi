@@ -2,6 +2,7 @@ from django.shortcuts import render
 
 # Create your views here.
 from django.http import HttpResponse
+from django.http import JsonResponse
 
 from rest_framework import viewsets
 from rest_framework.response import Response
@@ -36,4 +37,7 @@ class RecruiterProfileViewSet(viewsets.ModelViewSet):
 
 # def home(request):
 #     return HttpResponse("Bienvenue sur le système d'offres d'emploi !")
+
+def home(request):
+    return JsonResponse({"message": "Bienvenue sur l'API des offres d'emploi !"})
 
