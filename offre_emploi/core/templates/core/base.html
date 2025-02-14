@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    {% load static %}  <!-- Chargement du module static -->
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>{% block title %}Offres d'emploi{% endblock %}</title>
+    <link rel="stylesheet" href="{% static 'core/css/style.css' %}"> <!-- Lien vers le fichier CSS -->
+</head>
+<body>
+
+    <header>
+        <h1>Plateforme d'Offres d'Emploi</h1>
+        <nav>
+            <a href="{% url 'home' %}">Accueil</a>
+            <a href="{% url 'job_offers' %}">Offres d'emploi</a>
+            
+            {% if user.is_authenticated %}
+                <!-- Si l'utilisateur est un recruteur -->
+                {% if user.role == 'recruiter' %}
+                    <a href="{% url 'recruiter_dashboard' %}">Tableau de bord recruteur</a>
+                <!-- Si l'utilisateur est un chercheur d'emploi -->
+                {% elif user.role == 'job_seeker' %}
+                    <a href="{% url 'candidate_dashboard' %}">Tableau de bord candidat</a>
+                {% endif %}
+                <a href="{% url 'logout' %}">Se déconnecter</a>
+            {% else %}
+                <a href="{% url 'register' %}">S'inscrire</a>
+                <a href="{% url 'login' %}">Se connecter</a>
+            {% endif %}
+        </nav>
+    </header>
+
+    <main>
+        {% block content %}{% endblock %}
+    </main>
+
+    <footer>
+        <p>&copy; 2025 - Tous droits réservés</p>
+    </footer>
+
+</body>
+</html>

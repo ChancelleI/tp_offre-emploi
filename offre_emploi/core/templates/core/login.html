@@ -1,0 +1,15 @@
+{% extends 'core/base.html' %}
+
+{% block title %}Connexion{% endblock %}
+
+{% block content %}
+    <h2>Connexion</h2>
+    <form method="POST">
+        {% csrf_token %}
+        {{ form.as_p }}  <!-- Affichage du formulaire -->
+        <button type="submit">Se connecter</button>
+    </form>
+    <!-- <p>Pas encore de compte ? <a href="{% url 'register' %}">Inscrivez-vous ici</a></p> -->
+    <p>Pas encore inscrit ? <a href="{% url 'register' %}?role=job_seeker">Créez un compte candidat</a></p>
+
+{% endblock %}

@@ -18,11 +18,27 @@ Including another URLconf
 from django.contrib import admin
 from django.urls import path, include
 from django.shortcuts import redirect  # Import pour la redirection
+from django.http import HttpResponse
+from core import views  
+from django.contrib.auth import views as auth_views
+
+
+# Une vue de test pour vérifier que l'URL fonctionne
+# def offres_view(request):
+#     return HttpResponse("Liste des offres")
 
 urlpatterns = [
-   path('admin/', admin.site.urls),  # Interface d'administration
-    path('api/', include('core.urls')),  # Inclusion des routes de l'application core sous /api/
-    path('', lambda request: redirect('/api/joboffers/')),  # Redirection de la page d'accueil vers les offres d'emploi
-    # la page d'accueil affiche directement les offres d'emploi donc j'ai Redirigé la page d'accueil vers l'API ou une autre vue
+   path('admin/', admin.site.urls),
+    # path('offres/', offres_view),  # Si tu as une vue pour les offres
+    path('offres/', views.job_offers, name='job_offers'),  # Liste des offres
+    path('api/', include('core.urls')),  # Inclure les routes de core sous l'API
+    # path('', lambda request: redirect('/api/joboffers/')),  # Redirection de la page d'accueil
+    path('', views.home, name='home'),  # Affiche la page d'accueil
+
+    # Ajout des URLs pour les tableaux de bord du recruteur et du candidat
+    path('recruiter/dashboard/', views.recruiter_dashboard, name='recruiter_dashboard'),
+    path('candidate/dashboard/', views.candidate_dashboard, name='candidate_dashboard'),
+    path('login/', auth_views.LoginView.as_view(template_name='core/login.html'), name='login'),
+
 ]
 

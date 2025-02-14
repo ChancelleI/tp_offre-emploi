@@ -1,0 +1,31 @@
+{% extends 'core/base.html' %}
+
+{% block content %}
+    <h1>Tableau de bord du recruteur</h1>
+    <p>Bienvenue, {{ user.username }} !</p>
+
+    <h2>Vos offres d'emploi :</h2>
+    <table>
+        <thead>
+            <tr>
+                <th>Titre de l'offre</th>
+                <th>Description</th>
+                <th>Nombre de candidatures</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for job_offer in job_offers %}
+                <tr>
+                    <td>{{ job_offer.title }}</td>
+                    <td>{{ job_offer.description }}</td>
+                    <td>{{ job_offer.applications.count }}</td>  <!-- Nombre de candidatures pour l'offre -->
+                    <td><a href="{% url 'view_applications' job_offer.id %}">Voir les candidatures</a></td>  <!-- Lien vers les candidatures -->
+                </tr>
+            {% empty %}
+                <tr>
+                    <td colspan="4">Vous n'avez pas encore publié d'offres d'emploi.</td>
+                </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+{% endblock %}

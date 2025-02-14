@@ -1,0 +1,11 @@
+<!-- core/templates/core/applied_jobs.html -->
+{% extends 'core/base.html' %}
+
+{% block content %}
+  <h1>Offres auxquelles j'ai postulé</h1>
+  <ul>
+    {% for job_offer in job_offers %}
+      <li>{{ job_offer.title }}</li>
+    {% endfor %}
+  </ul>
+{% endblock %}

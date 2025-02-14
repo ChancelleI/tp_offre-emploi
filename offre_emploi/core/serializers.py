@@ -9,12 +9,18 @@ class JobOfferSerializer(serializers.ModelSerializer):
     
     class Meta:
         model = JobOffer
-        fields = '__all__'
+        exclude = ['salary']  # Exclure le champ salary
 
     def validate_title(self, value):
         """ Vérifie que le titre de l'offre n'est pas vide. """
         if not value.strip():
             raise serializers.ValidationError("Le titre de l'offre ne peut pas être vide.")
+        return value
+    
+    def validate_description(self, value):
+        """ Vérifie que la description n'est pas vide. """
+        if not value.strip():
+            raise serializers.ValidationError("La description ne peut pas être vide.")
         return value
 
 class JobSeekerProfileSerializer(serializers.ModelSerializer):

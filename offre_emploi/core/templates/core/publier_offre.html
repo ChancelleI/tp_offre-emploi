@@ -1,0 +1,14 @@
+{% extends 'core/base.html' %} 
+
+{% block content %}
+    <h2>Publier une offre d'emploi</h2>
+    
+    <form method="post">
+        {% csrf_token %}
+        {{ form.as_p }}
+        
+        <button type="submit">Publier</button>
+    </form>
+
+    <a href="{% url 'home' %}">Retour à l'accueil</a>
+{% endblock %}

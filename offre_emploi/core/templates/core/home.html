@@ -1,0 +1,32 @@
+{% extends 'core/base.html' %}
+
+{% block title %}Accueil{% endblock %}
+
+{% block content %}
+    <div class="container">
+        <h2 class="welcome-title">Bienvenue sur la plateforme d'offres d'emploi</h2>
+        <p class="description">Consultez les offres d'emploi et postulez dès maintenant !</p>
+        <a href="{% url 'job_offers' %}" class="btn">Voir les offres</a>
+
+        <h3 class="offers-title">Offres d'emploi</h3>
+
+        <div class="job-offers">
+            {% for offre in offres %}
+                <div class="offre">
+                    <h4>{{ offre.title }}</h4>
+                    <p>Entreprise : {{ offre.company }}</p>
+                    <!-- Le bouton "Postuler" n'est affiché que si l'utilisateur est connecté et s'il est un job seeker -->
+                    {% if user.is_authenticated and user.role == 'job_seeker' %}
+                        <a href="{% url 'job_offer_detail' offer_id=offre.id %}" class="btn postuler-btn">Postuler</a>
+                    {% endif %}
+                </div>
+            {% endfor %}
+        </div>
+
+        <div class="publish-offer">
+            {% if user.is_authenticated and user.role == 'recruiter' %}
+                <a href="{% url 'publier_offre' %}" class="btn">Publier une offre</a>
+            {% endif %}
+        </div>
+    </div>
+{% endblock %}

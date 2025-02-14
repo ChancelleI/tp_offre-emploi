@@ -1,0 +1,22 @@
+{% extends 'core/base.html' %}
+
+
+{% block title %}Détails de l'offre{% endblock %}
+
+{% block content %}
+    <h2>{{ job_offer.title }}</h2>
+    <p><strong>Entreprise :</strong> {{ job_offer.company }}</p>
+    <p>{{ job_offer.description }}</p>
+    <p><strong>Type de contrat :</strong> {{ job_offer.get_contract_type_display }}</p>
+    <p><strong>Localisation :</strong> {{ job_offer.location }}</p>
+    <p><strong>Salaire :</strong> {{ job_offer.salary }}</p>
+
+    <form method="POST" action="{% url 'apply_for_job' job_offer.id %}">
+        {% csrf_token %}
+        <button type="submit" class="btn btn-primary">Postuler</button>
+    </form>
+    
+    
+    <a href="{% url 'job_offers' %}" class="btn">Retour aux offres</a>
+{% endblock %}
+
