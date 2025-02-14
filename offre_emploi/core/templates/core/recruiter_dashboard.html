@@ -1,31 +1,122 @@
 {% extends 'core/base.html' %}
-
+{% load static %}
 {% block content %}
-    <h1>Tableau de bord du recruteur</h1>
-    <p>Bienvenue, {{ user.username }} !</p>
+<div class="container-fluid mt-4">
+    <div class="row">
+        <!-- Barre de navigation à gauche -->
+        <div class="col-md-3">
+            <div class="card shadow-sm border-light">
+                <div class="card-body">
+                    <h5 class="card-title text-center text-primary">Tableau de bord Recruteur</h5>
+                    <ul class="nav flex-column">
+                        <li class="nav-item">
+                            <a class="nav-link" href="#">Tableau de bord</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" href="#">Offres d'emploi</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" href="#">Candidatures reçues</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" href="#">Messagerie</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" href="#">Profil</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link text-danger" href="{% url 'logout' %}">Se déconnecter</a>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+        </div>
 
-    <h2>Vos offres d'emploi :</h2>
-    <table>
-        <thead>
-            <tr>
-                <th>Titre de l'offre</th>
-                <th>Description</th>
-                <th>Nombre de candidatures</th>
-            </tr>
-        </thead>
-        <tbody>
-            {% for job_offer in job_offers %}
-                <tr>
-                    <td>{{ job_offer.title }}</td>
-                    <td>{{ job_offer.description }}</td>
-                    <td>{{ job_offer.applications.count }}</td>  <!-- Nombre de candidatures pour l'offre -->
-                    <td><a href="{% url 'view_applications' job_offer.id %}">Voir les candidatures</a></td>  <!-- Lien vers les candidatures -->
-                </tr>
-            {% empty %}
-                <tr>
-                    <td colspan="4">Vous n'avez pas encore publié d'offres d'emploi.</td>
-                </tr>
-            {% endfor %}
-        </tbody>
-    </table>
+        <!-- Section centrale avec les informations du recruteur -->
+        <div class="col-md-9">
+            <div class="card shadow-sm border-light">
+                <div class="card-body">
+                    <h2 class="card-title text-center text-primary">Bienvenue, {{ user.username }} !</h2>
+
+                    <!-- Section d'aperçu -->
+                    <div class="row mt-4">
+                        <div class="col-md-4">
+                            <div class="card text-white bg-primary">
+                                <div class="card-body">
+                                    <h5 class="card-title">Offres d'emploi actives</h5>
+                                    <p class="card-text">{{ active_job_offers_count }}</p>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-md-4">
+                            <div class="card text-white bg-success">
+                                <div class="card-body">
+                                    <h5 class="card-title">Candidatures reçues</h5>
+                                    <p class="card-text">{{ received_applications_count }}</p>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-md-4">
+                            <div class="card text-white bg-warning">
+                                <div class="card-body">
+                                    <h5 class="card-title">Messages non lus</h5>
+                                    <p class="card-text">{{ unread_messages_count }}</p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Section des candidatures -->
+                    <h3 class="mt-4 text-info">Candidatures reçues :</h3>
+                    <table class="table table-striped">
+                        <thead>
+                            <tr>
+                                <th>Candidat</th>
+                                <th>Offre d'emploi</th>
+                                <th>Statut</th>
+                                <th>Actions</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            {% for application in applications %}
+                            <tr>
+                                <td>{{ application.job_seeker.username }}</td>
+                                <td>{{ application.job_offer.title }}</td>
+                                <td>{{ application.status }}</td>
+                                <td>
+                                    <a href="{% url 'view_application' application.id %}" class="btn btn-primary btn-sm">Voir</a>
+                                    <a href="{% url 'interview_schedule' application.id %}" class="btn btn-success btn-sm">Planifier entretien</a>
+                                </td>
+                            </tr>
+                            {% empty %}
+                            <tr>
+                                <td colspan="4" class="text-center">Aucune candidature reçue pour le moment.</td>
+                            </tr>
+                            {% endfor %}
+                        </tbody>
+                    </table>
+
+                    <!-- Section pour ajouter une nouvelle offre d'emploi -->
+                    <h3 class="mt-4 text-info">Ajouter une nouvelle offre d'emploi :</h3>
+                    <form method="post" enctype="multipart/form-data">
+                        {% csrf_token %}
+                        <div class="form-group">
+                            <label for="title">Titre de l'offre :</label>
+                            <input type="text" class="form-control" id="title" name="title" required>
+                        </div>
+                        <div class="form-group">
+                            <label for="description">Description de l'offre :</label>
+                            <textarea class="form-control" id="description" name="description" rows="4" required></textarea>
+                        </div>
+                        <button class="btn btn-primary mt-3" type="submit">Publier l'offre</button>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}
+
+{% block css %}
+<link rel="stylesheet" href="{% static 'core/css/recruiter_dashboard.css' %}">
 {% endblock %}

@@ -187,20 +187,20 @@ def apply_for_job(request, offer_id):
 
     # Si l'utilisateur n'est pas connecté, redirige vers la page de connexion avec le paramètre `next`
     if not request.user.is_authenticated:
-        return redirect(f"/login/?next=/job/{offer_id}/apply/")  
+        return redirect(f"/login/?next=/job/{offer_id}/apply/")
 
     # Si l'utilisateur n'est pas un chercheur d'emploi
     if request.user.role != "job_seeker":
         messages.error(request, "Seuls les candidats peuvent postuler aux offres.")
-        return redirect('job_offer_detail', job_id=offer_id)
+        return redirect('job_offer_detail', offer_id=offer_id)
 
     # Vérifie si l'utilisateur a déjà postulé
     if Application.objects.filter(job_offer=job_offer, job_seeker=request.user).exists():
         messages.warning(request, "Vous avez déjà postulé à cette offre.")
-        return redirect('job_offer_detail', job_id=offer_id)
+        return redirect('job_offer_detail', offer_id=offer_id)
 
-    # Si c'est une soumission de formulaire (POST)
-    if request.method == "POST":
+    # Si c'est une soumission de formulaire (POST classique)
+    if request.method == "POST" and not request.is_ajax():
         form = ApplicationForm(request.POST, request.FILES)
         if form.is_valid():
             application = form.save(commit=False)
@@ -208,9 +208,22 @@ def apply_for_job(request, offer_id):
             application.job_seeker = request.user  # Associe le candidat connecté
             application.save()
             messages.success(request, "Votre candidature a été envoyée avec succès !")
-            return redirect("job_offer_detail", job_id=offer_id)
+            return redirect('job_offer_detail', offer_id=offer_id)
         else:
             messages.error(request, "Il y a des erreurs dans votre formulaire. Veuillez les corriger.")
+    
+    # Si la requête est AJAX
+    elif request.method == 'POST' and request.is_ajax():
+        form = ApplicationForm(request.POST, request.FILES)
+        if form.is_valid():
+            application = form.save(commit=False)
+            application.job_offer = job_offer
+            application.job_seeker = request.user
+            application.save()
+            return JsonResponse({'success': True})  # Réponse JSON en cas de succès
+        else:
+            return JsonResponse({'success': False, 'error': 'Des erreurs sont survenues dans votre formulaire.'})
+
     else:
         form = ApplicationForm()
 

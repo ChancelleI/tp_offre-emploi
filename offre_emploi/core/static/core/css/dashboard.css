@@ -1,0 +1,142 @@
+/* Dashboard - Style Global */
+body {
+    font-family: 'Arial', sans-serif;
+    background-color:white;
+    margin: 0;
+    padding: 0;
+}
+
+/* Sidebar */
+.sidebar {
+    position: fixed;
+    left: 0;
+    top: 0;
+    width: 250px;
+    height: 100%;
+    background-color: #007bff;
+    color: white;
+    padding-top: 40px;
+    text-align: center;
+}
+
+.sidebar h2 {
+    color: #fff;
+    font-size: 1.5em;
+    margin-bottom: 20px;
+}
+
+.sidebar a {
+    display: block;
+    color: white;
+    padding: 15px;
+    text-decoration: none;
+    font-size: 16px;
+    margin: 10px 0;
+}
+
+.sidebar a:hover {
+    background-color: #0056b3;
+    color: white;
+}
+
+.sidebar .logout {
+    margin-top: auto;
+    background-color: #dc3545;
+    color: white;
+}
+
+/* Main content */
+.main-content {
+    margin-left: 250px;
+    padding: 20px;
+    background-color: #f9f9f9;
+}
+
+h1 {
+    color: #343a40;
+}
+
+h2 {
+    color: #007bff;
+    margin-top: 30px;
+}
+
+h3 {
+    margin-top: 30px;
+    color: #343a40;
+}
+
+p {
+    font-size: 1.2em;
+    color: #333;
+}
+
+/* Table */
+table {
+    width: 100%;
+    margin-top: 20px;
+    border-collapse: collapse;
+}
+
+table th, table td {
+    padding: 12px;
+    text-align: left;
+    border: 1px solid #ddd;
+}
+
+table th {
+    background-color: #007bff;
+    color: white;
+}
+
+table td {
+    background-color: #f2f2f2;
+}
+
+table tr:nth-child(even) td {
+    background-color: #e9ecef;
+}
+
+/* Buttons */
+.btn {
+    display: inline-block;
+    padding: 10px 20px;
+    font-size: 16px;
+    cursor: pointer;
+    border-radius: 5px;
+    text-align: center;
+}
+
+.btn-outline-primary {
+    border: 2px solid #007bff;
+    background-color: white;
+    color: #007bff;
+}
+
+.btn-outline-primary:hover {
+    background-color: #007bff;
+    color: white;
+}
+
+.mt-3 {
+    margin-top: 20px;
+}
+
+.file-upload-container {
+    display: flex;
+    flex-direction: column;
+    margin-top: 20px;
+}
+
+.file-upload-container input[type="file"] {
+    margin-top: 10px;
+}
+
+/* Footer */
+footer {
+    text-align: center;
+    margin-top: 30px;
+    padding: 20px 0;
+    background-color: #343a40;
+    color: white;
+}

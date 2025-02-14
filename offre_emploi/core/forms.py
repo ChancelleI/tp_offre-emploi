@@ -24,4 +24,4 @@ class JobOfferForm(forms.ModelForm):
 class ApplicationForm(forms.ModelForm):
     class Meta:
         model = Application
-        fields = ["resume", "cover_letter"]
+        fields = ['job_seeker', 'job_offer', 'phone_number', 'email', 'resume', 'cover_letter']

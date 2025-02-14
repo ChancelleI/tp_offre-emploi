@@ -1,35 +1,74 @@
 {% extends 'core/base.html' %}
 
-{% block content %}
-{% if messages %}
-        <ul>
-            {% for message in messages %}
-                <li class="alert alert-{{ message.tags }}">{{ message }}</li>
-            {% endfor %}
-        </ul>
-    {% endif %}
-    <h1>Tableau de bord du candidat</h1>
-    <p>Bienvenue, {{ user.username }} !</p>
+{% load static %}
 
-    <h2>Vos candidatures :</h2>
-    <table>
-        <thead>
-            <tr>
-                <th>Offre d'emploi</th>
-                <th>Statut</th>
-            </tr>
-        </thead>
-        <tbody>
-            {% for application in applications %}
-                <tr>
-                    <td>{{ application.job_offer.title }}</td>
-                    <td>{{ application.status }}</td>
-                </tr>
-            {% empty %}
-                <tr>
-                    <td colspan="2">Vous n'avez pas encore postulé à d'offres d'emploi.</td>
-                </tr>
-            {% endfor %}
-        </tbody>
-    </table>
+{% block content %}
+<div class="main-content">
+    <div class="container">
+        <div class="row">
+            <div class="col-md-3">
+                <!-- Sidebar -->
+                <div class="sidebar">
+                    <h2>Tableau de bord</h2>
+                    <a href="#">Profil</a>
+                    <a href="#">Compétences</a>
+                    <a href="#">Candidatures</a>
+                    <a href="#">Documents</a>
+                    <a href="#">Bulletins de salaire</a>
+                    <a href="#">Contrats</a>
+                    <a href="#">Attestations</a>
+                    <a href="#">Avantages</a>
+                    <a href="#" class="logout">Se déconnecter</a>
+                </div>
+            </div>
+
+            <div class="col-md-9">
+                <!-- Main Content -->
+                <h1>Bienvenue, {{ user.username }} !</h1>
+
+                <h2>Vos candidatures :</h2>
+                <table class="table">
+                    <thead>
+                        <tr>
+                            <th>Offre d'emploi</th>
+                            <th>Statut</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {% for application in applications %}
+                        <tr>
+                            <td>{{ application.job_offer.title }}</td>
+                            <td>{{ application.status }}</td>
+                        </tr>
+                        {% empty %}
+                        <tr>
+                            <td colspan="2">Vous n'avez pas encore postulé à d'offres d'emploi.</td>
+                        </tr>
+                        {% endfor %}
+                    </tbody>
+                </table>
+
+                <a href="{% url 'job_offers' %}" class="btn btn-outline-primary mt-3">Voir les offres d’emploi</a>
+
+                <div class="file-upload-container mt-4">
+                    <h3>Téléchargez vos documents :</h3>
+                    <form method="post" enctype="multipart/form-data">
+                        {% csrf_token %}
+                        <label for="cv">Téléchargez votre CV :</label>
+                        <input type="file" name="cv" id="cv">
+
+                        <label for="motivation_letter">Téléchargez votre lettre de motivation :</label>
+                        <input type="file" name="motivation_letter" id="motivation_letter">
+
+                        <button type="submit" class="btn btn-outline-primary mt-3">Envoyer</button>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}
+
+{% block extra_css %}
+    <link rel="stylesheet" href="{% static 'core/css/dashboard.css' %}">
 {% endblock %}

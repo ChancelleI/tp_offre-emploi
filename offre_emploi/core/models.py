@@ -101,6 +101,8 @@ class Application(models.Model):
     job_seeker = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.CASCADE)
     resume = models.FileField(upload_to="resumes/", null=True, blank=True)  # Ajout du CV
     cover_letter = models.TextField(null=True, blank=True)  # Ajout de la lettre de motivation
+    phone_number = models.CharField(max_length=15)
+    email = models.EmailField()  # Nouveau champ pour l'email
     application_date = models.DateTimeField(auto_now_add=True)
     status = models.CharField(max_length=50, choices=STATUS_CHOICES, default='pending', db_index=True)
 

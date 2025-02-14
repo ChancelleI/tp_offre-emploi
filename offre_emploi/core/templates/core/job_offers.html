@@ -1,19 +1,48 @@
-{% extends "core/base.html" %}
+{% extends 'core/base.html' %}
+{% load static %}
 
 {% block content %}
-    <div class="container mt-5">
-        <h1 class="mb-4">Liste des Offres d'Emploi</h1>
-        <ul class="list-group">
-            {% for offer in job_offers %}
-                <li class="list-group-item">
-                    <h5>{{ offer.title }}</h5>
-                    <p>{{ offer.description }}</p>
-                    <small>{{ offer.location }} | {{ offer.contract_type }}</small>
-                    <br>
-                    <!-- Ajout du lien vers la page de détails -->
-                    <a href="{% url 'job_offer_detail' offer.id %}" class="btn btn-primary mt-2">Détails</a>
-                </li>
-            {% endfor %}
-        </ul>
+<div class="main-content">
+    <div class="container">
+        <div class="row">
+            <!-- Sidebar avec le tableau de bord -->
+            <div class="col-md-3">
+                <div class="sidebar">
+                    <h2>Tableau de bord</h2>
+                    <a href="#">Profil</a>
+                    <a href="#">Compétences</a>
+                    <a href="#">Candidatures</a>
+                    <a href="#">Documents</a>
+                    <a href="#">Bulletins de salaire</a>
+                    <a href="#">Contrats</a>
+                    <a href="#">Attestations</a>
+                    <a href="#">Avantages</a>
+                    <a href="#" class="logout">Se déconnecter</a>
+                </div>
+            </div>
+
+            <!-- Liste des offres d'emploi au centre -->
+            <div class="col-md-9">
+                <h1 class="mb-4">Liste des Offres d'Emploi</h1>
+                <ul class="list-group">
+                    {% for offer in job_offers %}
+                        <li class="list-group-item">
+                            <h5>{{ offer.title }}</h5>
+                            <p>{{ offer.description }}</p>
+                            <small>{{ offer.location }} | {{ offer.contract_type }}</small>
+                            <br>
+                            <!-- Lien vers la page de détails -->
+                            <a href="{% url 'job_offer_detail' offer.id %}" class="btn btn-primary mt-2">Détails</a>
+                        </li>
+                    {% empty %}
+                        <li class="list-group-item">Aucune offre d'emploi disponible.</li>
+                    {% endfor %}
+                </ul>
+            </div>
+        </div>
     </div>
+</div>
+{% endblock %}
+{% block extra_css %}
+    <link rel="stylesheet" href="{% static 'core/css/dashboard.css' %}">
 {% endblock %}

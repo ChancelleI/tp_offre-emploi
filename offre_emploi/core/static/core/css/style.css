@@ -6,14 +6,14 @@ body {
 }
 
 header {
-    background: #333;
+    background:red;
     color: white;
     padding: 10px;
     text-align: center;
 }
 
 nav a {
-    color: white;
+    color:white;
     margin: 0 15px;
     text-decoration: none;
 }
@@ -22,6 +22,12 @@ main {
     width: 80%;
     margin: auto;
     padding: 20px;
+}
+
+h1 {
+    color: #ffffff;
+    font-weight: bold;
+    font-family: 'Roboto', sans-serif;
 }
 
 /* Centrer le contenu de la page */
@@ -97,7 +103,7 @@ main {
 footer {
     text-align: center;
     padding: 20px;
-    background-color: #f1f1f1;
+    background-color: red;
     margin-top: 40px;
 }
 
