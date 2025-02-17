@@ -16,24 +16,25 @@
 
     <header>
         <h1>Plateforme d'Offres d'Emploi</h1>
-        <nav>
-            <a href="{% url 'home' %}">Accueil</a>
-            <a href="{% url 'job_offers' %}">Offres d'emploi</a>
-            
-            {% if user.is_authenticated %}
-                <!-- Si l'utilisateur est un recruteur -->
-                {% if user.role == 'recruiter' %}
-                    <a href="{% url 'recruiter_dashboard' %}">Tableau de bord recruteur</a>
-                <!-- Si l'utilisateur est un chercheur d'emploi -->
-                {% elif user.role == 'job_seeker' %}
-                    <a href="{% url 'candidate_dashboard' %}">Tableau de bord candidat</a>
-                {% endif %}
-                <a href="{% url 'logout' %}">Se déconnecter</a>
-            {% else %}
-                <a href="{% url 'register' %}">S'inscrire</a>
-                <a href="{% url 'login' %}">Se connecter</a>
-            {% endif %}
-        </nav>
+        <nav class="navbar">
+            <div class="container">
+                <!-- <a href="{% url 'home' %}" class="navbar-brand">Offres d'Emploi</a> -->
+        
+                <div class="navbar-links">
+                    <a href="{% url 'job_offers' %}">Offres</a>
+        
+                    {% if user.is_authenticated %}
+                        {% if user.role == "recruiter" %}
+                            <a href="{% url 'recruiter_dashboard' %}" class="btn btn-primary">👤 Mon Tableau de bord</a>
+                        {% elif user.role == "job_seeker" %}
+                            <a href="{% url 'candidate_dashboard' %}" class="btn btn-primary">👤 Mon Tableau de bord</a>
+                        {% endif %}
+                        <a href="{% url 'logout' %}" class="btn btn-danger">🚪 Déconnexion</a>
+                    {% else %}
+                        <a href="{% url 'login' %}" class="btn btn-success">🔑 Connexion</a>
+                    {% endif %}
+                </div>
+            </div>
     </header>
 
     <main>

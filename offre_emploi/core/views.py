@@ -50,15 +50,15 @@ class RecruiterProfileViewSet(viewsets.ModelViewSet):
 # Vue pour le frontend (HTML)
 def home(request):
     offres = JobOffer.objects.all()  # Récupère toutes les offres d'emploi
-    if request.user.is_authenticated:
-        user_role = getattr(request.user, 'role', None)  # Récupérer le rôle proprement
-        print(f"DEBUG - Utilisateur connecté: {request.user.username}, Role: {user_role}")
-        # if hasattr(request.user, 'role'): 
-    #     # print(f"User role: {request.user.role}")  # Debug
-        if user_role == 'recruiter':
-           return redirect('recruiter_dashboard')  # Rediriger vers le tableau de bord du recruteur
-        elif user_role == 'job_seeker':
-           return redirect('candidate_dashboard')  # Rediriger vers le tableau de bord du candidat
+    # if request.user.is_authenticated:
+    #     user_role = getattr(request.user, 'role', None)  # Récupérer le rôle proprement
+    #     print(f"DEBUG - Utilisateur connecté: {request.user.username}, Role: {user_role}")
+    #     # if hasattr(request.user, 'role'): 
+    # #     # print(f"User role: {request.user.role}")  # Debug
+    #     if user_role == 'recruiter':
+    #        return redirect('recruiter_dashboard')  # Rediriger vers le tableau de bord du recruteur
+    #     elif user_role == 'job_seeker':
+    #        return redirect('candidate_dashboard')  # Rediriger vers le tableau de bord du candidat
     return render(request, 'core/home.html', {'offres': offres})  # Passe les offres à la page d'accueil
 
 def job_offers(request):
